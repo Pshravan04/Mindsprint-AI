@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Activity, BookOpen, Flame, Target } from "lucide-react"
+import { Activity, BookOpen, Flame, Target, User } from "lucide-react"
 
 export function Sidebar() {
   const pathname = usePathname()
@@ -12,6 +12,7 @@ export function Sidebar() {
     { href: "/tracker", icon: Target, label: "Tracker" },
     { href: "/journal", icon: BookOpen, label: "Journal" },
     { href: "/community", icon: Flame, label: "Community" },
+    { href: "/profile", icon: User, label: "Profile" },
   ]
 
   return (

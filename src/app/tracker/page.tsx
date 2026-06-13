@@ -26,9 +26,17 @@ const UPCOMING_EXAMS = [
 export default function TrackerPage() {
   const [mockData, setMockData] = useState(INITIAL_MOCK_DATA)
   const [newScore, setNewScore] = useState("")
+  const [targetScore, setTargetScore] = useState(300)
 
   useEffect(() => {
-    const fetchScores = async () => {
+    const fetchData = async () => {
+      // Fetch Profile
+      const { data: profileData } = await supabase.from('profiles').select('target_score').limit(1).single()
+      if (profileData && profileData.target_score) {
+        setTargetScore(profileData.target_score)
+      }
+
+      // Fetch Scores
       const { data, error } = await supabase
         .from('mock_scores')
         .select('*')
@@ -38,11 +46,11 @@ export default function TrackerPage() {
         setMockData(data.map((d: any) => ({
           name: d.name,
           score: d.score,
-          max: d.max
+          max: profileData?.target_score || 300
         })))
       }
     }
-    fetchScores()
+    fetchData()
   }, [])
 
   const handleAddScore = async (e: React.FormEvent) => {
@@ -51,7 +59,7 @@ export default function TrackerPage() {
       const newEntry = {
         name: `Mock ${mockData.length + 1}`,
         score: Number(newScore),
-        max: 300
+        max: targetScore
       }
       
       setMockData([...mockData, newEntry])
@@ -79,7 +87,7 @@ export default function TrackerPage() {
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <div>
                   <CardTitle>Mock Test Performance</CardTitle>
-                  <CardDescription>Your score trajectory out of 300</CardDescription>
+                  <CardDescription>Your score trajectory out of {targetScore}</CardDescription>
                 </div>
                 <div className="bg-primary/20 p-2 rounded-lg text-primary">
                   <TrendingUp className="w-5 h-5" />
@@ -96,7 +104,7 @@ export default function TrackerPage() {
                         </linearGradient>
                       </defs>
                       <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
-                      <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} domain={[0, 300]} />
+                      <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} domain={[0, targetScore]} />
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#333" opacity={0.2} />
                       <Tooltip 
                         contentStyle={{ backgroundColor: 'rgba(17, 17, 17, 0.8)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px' }}
@@ -166,14 +174,16 @@ export default function TrackerPage() {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-white/80">Current Average</span>
-                    <span className="font-bold text-emerald-400">236 / 300</span>
+                    <span className="font-bold text-emerald-400">
+                      {mockData.length > 0 ? Math.round(mockData.reduce((acc, curr) => acc + curr.score, 0) / mockData.length) : 0} / {targetScore}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-white/80">Target Score</span>
-                    <span className="font-bold text-white">280 / 300</span>
+                    <span className="font-bold text-white">{targetScore}</span>
                   </div>
                   <div className="w-full h-2 bg-white/10 rounded-full mt-4">
-                    <div className="h-full bg-emerald-400 rounded-full" style={{ width: '84%' }}></div>
+                    <div className="h-full bg-emerald-400 rounded-full" style={{ width: `${mockData.length > 0 ? Math.min(100, (Math.round(mockData.reduce((acc, curr) => acc + curr.score, 0) / mockData.length) / targetScore) * 100) : 0}%` }}></div>
                   </div>
                 </div>
               </CardContent>

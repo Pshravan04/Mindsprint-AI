@@ -38,11 +38,17 @@ export default function DashboardPage() {
   const [loadingInsights, setLoadingInsights] = useState(true)
 
   useEffect(() => {
-    const savedName = localStorage.getItem("mindsprint_user")
-    if (savedName) {
-      // Capitalize first letter
-      setUsername(savedName.charAt(0).toUpperCase() + savedName.slice(1))
+    const fetchProfileData = async () => {
+      try {
+        const { data } = await supabase.from('profiles').select('name').limit(1).single()
+        if (data && data.name) {
+          setUsername(data.name)
+        }
+      } catch (e) {
+        // Fallback or ignore
+      }
     }
+    fetchProfileData()
 
     const fetchInsights = async () => {
       try {
