@@ -9,8 +9,8 @@ import { Input } from "@/components/ui/input"
 import { Target, Calendar, Plus, TrendingUp } from "lucide-react"
 import dynamic from 'next/dynamic'
 
-const LineChart = dynamic(() => import('recharts').then((mod) => mod.LineChart), { ssr: false })
-const Line = dynamic(() => import('recharts').then((mod) => mod.Line), { ssr: false })
+const AreaChart = dynamic(() => import('recharts').then((mod) => mod.AreaChart), { ssr: false })
+const Area = dynamic(() => import('recharts').then((mod) => mod.Area), { ssr: false })
 const XAxis = dynamic(() => import('recharts').then((mod) => mod.XAxis), { ssr: false })
 const YAxis = dynamic(() => import('recharts').then((mod) => mod.YAxis), { ssr: false })
 const Tooltip = dynamic(() => import('recharts').then((mod) => mod.Tooltip), { ssr: false })

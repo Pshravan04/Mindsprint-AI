@@ -102,7 +102,7 @@ export default function CommunityPage() {
               >
                 <Card className="bg-white hover:border-indigo-300 transition-colors border-slate-200 shadow-sm rounded-2xl">
                   <CardContent className="p-6">
-                    <p className="text-slate-700 leading-relaxed text-lg">"{post.text}"</p>
+                    <p className="text-sm font-medium">Anonymous said: &quot;{post.text}&quot;</p>
                     <div className="flex items-center gap-2 mt-4 text-sm text-slate-500">
                       <span className="font-medium">{post.author}</span>
                       <span>•</span>
