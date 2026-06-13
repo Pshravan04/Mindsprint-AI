@@ -57,7 +57,7 @@ export default function JournalPage() {
           content: `Hi ${currentName}. I'm your MindSprint AI companion. I'm here to listen, support, and help you navigate your exam preparation journey. How are you feeling right now?`
         }
 
-        const formatted: Message[] = data.map((d: { id: string, content: string, role: 'user' | 'assistant' }) => ({
+        const formatted: Message[] = data.map((d: { id: string, content: string, role: 'user' | 'ai' }) => ({
           id: d.id,
           role: d.role,
           content: d.content
