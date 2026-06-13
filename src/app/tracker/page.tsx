@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Sidebar } from "@/components/Sidebar"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Target, Calendar, Plus, TrendingUp } from "lucide-react"
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts"
+import { supabase } from "@/lib/supabase"
 
 const INITIAL_MOCK_DATA = [
   { name: "Mock 1", score: 210, max: 300 },
@@ -26,18 +27,37 @@ export default function TrackerPage() {
   const [mockData, setMockData] = useState(INITIAL_MOCK_DATA)
   const [newScore, setNewScore] = useState("")
 
-  const handleAddScore = (e: React.FormEvent) => {
+  useEffect(() => {
+    const fetchScores = async () => {
+      const { data, error } = await supabase
+        .from('mock_scores')
+        .select('*')
+        .order('created_at', { ascending: true })
+      
+      if (!error && data && data.length > 0) {
+        setMockData(data.map((d: any) => ({
+          name: d.name,
+          score: d.score,
+          max: d.max
+        })))
+      }
+    }
+    fetchScores()
+  }, [])
+
+  const handleAddScore = async (e: React.FormEvent) => {
     e.preventDefault()
     if (newScore && !isNaN(Number(newScore))) {
-      setMockData([
-        ...mockData,
-        {
-          name: \`Mock \${mockData.length + 1}\`,
-          score: Number(newScore),
-          max: 300
-        }
-      ])
+      const newEntry = {
+        name: `Mock ${mockData.length + 1}`,
+        score: Number(newScore),
+        max: 300
+      }
+      
+      setMockData([...mockData, newEntry])
       setNewScore("")
+
+      await supabase.from('mock_scores').insert([newEntry])
     }
   }
 

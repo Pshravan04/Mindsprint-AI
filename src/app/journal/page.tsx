@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
 import { Brain, Send, User, Sparkles, Loader2 } from "lucide-react"
 import { Sidebar } from "@/components/Sidebar"
+import { supabase } from "@/lib/supabase"
 
 type Message = {
   id: string
@@ -35,19 +36,37 @@ export default function JournalPage() {
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    let currentName = "Alex";
     const savedName = localStorage.getItem("mindsprint_user")
     if (savedName) {
-      const formattedName = savedName.charAt(0).toUpperCase() + savedName.slice(1)
-      setUsername(formattedName)
-      // Update initial greeting
-      setMessages([
-        {
-          id: "1",
-          role: "ai",
-          content: `Hi ${formattedName}. I'm your MindSprint AI companion. I'm here to listen, support, and help you navigate your exam preparation journey. How are you feeling right now?`
-        }
-      ])
+      currentName = savedName.charAt(0).toUpperCase() + savedName.slice(1)
+      setUsername(currentName)
     }
+
+    const fetchMessages = async () => {
+      const { data, error } = await supabase
+        .from('journals')
+        .select('*')
+        .order('created_at', { ascending: true })
+
+      if (!error && data) {
+        const introMessage: Message = {
+          id: "intro",
+          role: "ai",
+          content: `Hi ${currentName}. I'm your MindSprint AI companion. I'm here to listen, support, and help you navigate your exam preparation journey. How are you feeling right now?`
+        }
+
+        const formatted: Message[] = data.map((d: any) => ({
+          id: d.id,
+          role: d.role,
+          content: d.content
+        }))
+
+        setMessages([introMessage, ...formatted])
+      }
+    }
+
+    fetchMessages()
   }, [])
 
   const scrollToBottom = () => {
@@ -68,10 +87,8 @@ export default function JournalPage() {
     setInput("")
     setIsLoading(true)
 
-    // Save to localStorage for AI insights analysis
-    const savedEntries = JSON.parse(localStorage.getItem("mindsprint_journals") || "[]")
-    savedEntries.push(userMessage.content)
-    localStorage.setItem("mindsprint_journals", JSON.stringify(savedEntries))
+    // Save to Supabase
+    await supabase.from('journals').insert([{ role: 'user', content }])
 
     try {
       const response = await fetch("/api/chat", {
@@ -85,6 +102,9 @@ export default function JournalPage() {
 
       const aiMessage: Message = { id: (Date.now() + 1).toString(), role: "ai", content: data.text }
       setMessages(prev => [...prev, aiMessage])
+      
+      // Save AI to Supabase
+      await supabase.from('journals').insert([{ role: 'ai', content: data.text }])
     } catch (error) {
       console.error("Chat error:", error)
       const errorMessage: Message = { id: (Date.now() + 1).toString(), role: "ai", content: "I'm sorry, I'm having trouble connecting right now. Please try again later." }

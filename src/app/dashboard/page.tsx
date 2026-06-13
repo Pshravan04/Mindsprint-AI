@@ -8,6 +8,7 @@ import { Brain, Flame, Calendar, Activity, CheckCircle2, ChevronRight, Moon, Sun
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts"
 import Link from "next/link"
 import { Sidebar } from "@/components/Sidebar"
+import { supabase } from "@/lib/supabase"
 
 const MOODS = [
   { emoji: "😔", label: "Stressed", color: "text-red-500", bg: "bg-red-500/10" },
@@ -45,13 +46,20 @@ export default function DashboardPage() {
 
     const fetchInsights = async () => {
       try {
-        const journalEntries = JSON.parse(localStorage.getItem("mindsprint_journals") || "[]")
+        const { data, error } = await supabase
+          .from('journals')
+          .select('content')
+          .eq('role', 'user')
+
+        if (error) throw error;
+        const journalEntries = data ? data.map((d: any) => d.content) : []
+
         const res = await fetch("/api/insights", {
           method: "POST",
           body: JSON.stringify({ journalEntries })
         })
-        const data = await res.json()
-        setInsights(data)
+        const result = await res.json()
+        setInsights(result)
       } catch (e) {
         console.error("Failed to fetch insights:", e)
       } finally {
