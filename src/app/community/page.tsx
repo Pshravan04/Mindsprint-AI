@@ -67,8 +67,8 @@ export default function CommunityPage() {
         </header>
 
         {/* Post Input */}
-        <Card className="glass border-border/50 shadow-lg max-w-2xl mx-auto relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary" />
+        <Card className="bg-white border-slate-200 shadow-sm max-w-2xl mx-auto relative overflow-hidden rounded-2xl">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-purple-500" />
           <CardContent className="p-6">
             <form onSubmit={handlePost} className="flex flex-col gap-4">
               <textarea
@@ -77,9 +77,9 @@ export default function CommunityPage() {
                 placeholder="Share your struggle... (It's completely anonymous)"
                 className="w-full bg-transparent resize-none outline-none text-foreground placeholder:text-muted-foreground min-h-[100px] text-lg"
               />
-              <div className="flex justify-between items-center border-t border-border/50 pt-4">
-                <span className="text-sm text-muted-foreground font-medium">Posting as <span className="text-foreground">Anonymous</span></span>
-                <Button type="submit" disabled={!newPost.trim()} className="rounded-xl px-6">
+              <div className="flex justify-between items-center border-t border-slate-100 pt-4">
+                <span className="text-sm text-slate-500 font-medium">Posting as <span className="text-slate-800">Anonymous</span></span>
+                <Button type="submit" disabled={!newPost.trim()} className="rounded-xl px-6 shadow-sm">
                   Share
                   <Send className="w-4 h-4 ml-2" />
                 </Button>
@@ -100,16 +100,16 @@ export default function CommunityPage() {
                 layout
                 className="break-inside-avoid"
               >
-                <Card className="glass hover:border-primary/50 transition-colors border-border/50">
+                <Card className="bg-white hover:border-indigo-300 transition-colors border-slate-200 shadow-sm rounded-2xl">
                   <CardContent className="p-6">
-                    <p className="text-foreground/90 leading-relaxed text-lg">"{post.text}"</p>
-                    <div className="flex items-center gap-2 mt-4 text-sm text-muted-foreground">
+                    <p className="text-slate-700 leading-relaxed text-lg">"{post.text}"</p>
+                    <div className="flex items-center gap-2 mt-4 text-sm text-slate-500">
                       <span className="font-medium">{post.author}</span>
                       <span>•</span>
                       <span>{post.time}</span>
                     </div>
                   </CardContent>
-                  <CardFooter className="p-4 bg-muted/30 border-t border-border/50 flex justify-between">
+                  <CardFooter className="p-4 bg-slate-50 border-t border-slate-100 flex justify-between">
                     <button 
                       onClick={() => toggleHug(post.id)}
                       className={`flex items-center gap-2 text-sm font-medium transition-colors ${

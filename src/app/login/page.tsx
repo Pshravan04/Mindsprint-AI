@@ -52,7 +52,7 @@ export default function LoginPage() {
           </Link>
         </div>
 
-        <Card className="glass-dark border-border/50 shadow-2xl">
+        <Card className="bg-white border-slate-200 shadow-2xl rounded-2xl">
           <CardHeader className="space-y-2 text-center pb-8">
             <CardTitle className="text-3xl font-bold tracking-tight">Welcome back</CardTitle>
             <CardDescription className="text-base text-muted-foreground">
@@ -69,7 +69,7 @@ export default function LoginPage() {
                   required 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="bg-background/50 border-border/50 focus:border-primary/50 h-12 rounded-xl"
+                  className="bg-white border-slate-200 focus-visible:ring-indigo-500 h-12 rounded-xl shadow-sm"
                 />
               </div>
               <div className="space-y-2">
@@ -82,7 +82,7 @@ export default function LoginPage() {
                   required 
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="bg-background/50 border-border/50 focus:border-primary/50 h-12 rounded-xl"
+                  className="bg-white border-slate-200 focus-visible:ring-indigo-500 h-12 rounded-xl shadow-sm"
                 />
               </div>
               
@@ -109,7 +109,7 @@ export default function LoginPage() {
             </div>
 
             <div className="mt-6">
-              <Button variant="outline" className="w-full h-12 rounded-xl bg-background/50 hover:bg-background/80 border-border/50 text-foreground font-medium">
+              <Button variant="outline" className="w-full h-12 rounded-xl bg-white hover:bg-slate-50 border-slate-200 text-slate-800 font-medium">
                 <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
                   <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                   <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>

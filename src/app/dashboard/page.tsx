@@ -88,9 +88,9 @@ export default function DashboardPage() {
             <p className="text-muted-foreground">Here's your mindful study overview.</p>
           </div>
           <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-2 glass px-4 py-2 rounded-full border border-border/50">
+            <div className="hidden sm:flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-slate-100 shadow-sm">
               <Flame className="w-5 h-5 text-orange-500" />
-              <span className="font-semibold">12 Day Streak</span>
+              <span className="font-semibold text-slate-800">12 Day Streak</span>
             </div>
             <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary to-secondary p-0.5">
               <div className="w-full h-full bg-background rounded-full flex items-center justify-center">
@@ -106,7 +106,7 @@ export default function DashboardPage() {
           <div className="lg:col-span-2 space-y-6">
             
             {/* Daily Check-In */}
-            <Card className="glass border-border/50 shadow-lg">
+            <Card className="shadow-sm border-slate-100">
               <CardHeader>
                 <CardTitle>How are you feeling today?</CardTitle>
                 <CardDescription>Your emotional state guides AI recommendations.</CardDescription>
@@ -139,7 +139,7 @@ export default function DashboardPage() {
             </Card>
 
             {/* Activity Graph */}
-            <Card className="glass border-border/50 shadow-lg">
+            <Card className="shadow-sm border-slate-100">
               <CardHeader>
                 <CardTitle>Focus & Mood Trends</CardTitle>
                 <CardDescription>Your performance over the last 7 days.</CardDescription>
@@ -158,8 +158,8 @@ export default function DashboardPage() {
                       <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#333" opacity={0.2} />
                       <Tooltip 
-                        contentStyle={{ backgroundColor: 'rgba(17, 17, 17, 0.8)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px' }}
-                        itemStyle={{ color: '#fff' }}
+                        contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #f1f5f9', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                        itemStyle={{ color: '#0f172a' }}
                       />
                       <Area type="monotone" dataKey="focus" stroke="#8b5cf6" strokeWidth={3} fillOpacity={1} fill="url(#colorFocus)" />
                     </AreaChart>
@@ -174,13 +174,13 @@ export default function DashboardPage() {
           <div className="space-y-6">
             
             {/* Burnout Risk Meter */}
-            <Card className="glass-dark border-border/50 shadow-xl overflow-hidden relative group">
-              <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+            <Card className="shadow-sm border-slate-100 overflow-hidden relative group">
+              <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
                 <Activity className="w-24 h-24 text-primary" />
               </div>
               <CardHeader>
-                <CardTitle className="text-white">Burnout Risk</CardTitle>
-                <CardDescription className="text-white/70">Based on your recent study patterns</CardDescription>
+                <CardTitle>Burnout Risk</CardTitle>
+                <CardDescription>Based on your recent study patterns</CardDescription>
               </CardHeader>
               <CardContent className="flex flex-col items-center">
                 <div className="relative w-40 h-40 flex items-center justify-center">
@@ -203,68 +203,68 @@ export default function DashboardPage() {
                       transition={{ duration: 1.5, ease: "easeOut" }}
                     />
                   </svg>
-                  <div className="absolute flex flex-col items-center justify-center text-white">
+                  <div className="absolute flex flex-col items-center justify-center text-slate-800">
                     <span className="text-4xl font-bold">{burnoutRisk}%</span>
-                    <span className="text-xs font-medium text-emerald-400 uppercase tracking-wider">Low Risk</span>
+                    <span className="text-xs font-medium text-emerald-500 uppercase tracking-wider mt-1">Low Risk</span>
                   </div>
                 </div>
-                <p className="text-sm text-center mt-4 text-white/80">
+                <p className="text-sm text-center mt-4 text-slate-500">
                   You are maintaining a healthy pace. Keep taking those short breaks!
                 </p>
               </CardContent>
             </Card>
 
             {/* AI Wellness Report */}
-            <Card className="glass-dark border-primary/20 shadow-xl overflow-hidden relative">
-              <div className="absolute -right-10 -top-10 opacity-10">
+            <Card className="shadow-sm border-indigo-100 bg-indigo-50/30 overflow-hidden relative">
+              <div className="absolute -right-10 -top-10 opacity-5">
                 <Brain className="w-40 h-40 text-primary" />
               </div>
               <CardHeader className="pb-4">
-                <CardTitle className="text-white flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-indigo-900">
                   <Sparkles className="w-5 h-5 text-primary" />
                   AI Wellness Analysis
                 </CardTitle>
-                <CardDescription className="text-white/70">
+                <CardDescription className="text-indigo-700/70">
                   Insights based on your recent journal entries and mood logs.
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 {loadingInsights ? (
-                  <div className="flex items-center justify-center p-8 text-white/50">
+                  <div className="flex items-center justify-center p-8 text-indigo-900/50">
                     <Loader2 className="w-6 h-6 animate-spin mr-2" />
                     Analyzing your mental wellness patterns...
                   </div>
                 ) : insights ? (
                   <div className="space-y-4">
-                    <div className="bg-background/20 p-4 rounded-xl border border-white/10">
-                      <h4 className="text-sm font-medium text-white/70 mb-2 flex items-center gap-2">
+                    <div className="bg-white p-4 rounded-xl border border-orange-100 shadow-sm">
+                      <h4 className="text-sm font-medium text-slate-700 mb-2 flex items-center gap-2">
                         <Target className="w-4 h-4 text-orange-400" /> Hidden Triggers
                       </h4>
                       <div className="flex flex-wrap gap-2">
                         {insights.hidden_triggers.map((trigger, i) => (
-                          <span key={i} className="px-3 py-1 bg-orange-500/20 text-orange-200 text-xs rounded-full border border-orange-500/30">
+                          <span key={i} className="px-3 py-1 bg-orange-50 text-orange-600 text-xs rounded-full border border-orange-200">
                             {trigger}
                           </span>
                         ))}
                       </div>
                     </div>
                     
-                    <div className="bg-background/20 p-4 rounded-xl border border-white/10">
-                      <h4 className="text-sm font-medium text-white/70 mb-1 flex items-center gap-2">
-                        <Activity className="w-4 h-4 text-blue-400" /> Emotional Pattern
+                    <div className="bg-white p-4 rounded-xl border border-blue-100 shadow-sm">
+                      <h4 className="text-sm font-medium text-slate-700 mb-1 flex items-center gap-2">
+                        <Activity className="w-4 h-4 text-blue-500" /> Emotional Pattern
                       </h4>
-                      <p className="text-sm text-white/90 leading-relaxed">{insights.emotional_pattern}</p>
+                      <p className="text-sm text-slate-600 leading-relaxed">{insights.emotional_pattern}</p>
                     </div>
 
-                    <div className="bg-primary/20 p-4 rounded-xl border border-primary/30">
-                      <h4 className="text-sm font-medium text-primary-foreground mb-1 flex items-center gap-2">
+                    <div className="bg-indigo-600 p-4 rounded-xl shadow-sm">
+                      <h4 className="text-sm font-medium text-indigo-50 mb-1 flex items-center gap-2">
                         <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Recommended Strategy
                       </h4>
-                      <p className="text-sm text-white/90 leading-relaxed">{insights.coping_strategy}</p>
+                      <p className="text-sm text-white leading-relaxed">{insights.coping_strategy}</p>
                     </div>
                   </div>
                 ) : (
-                  <div className="text-center p-4 text-white/60 text-sm">
+                  <div className="text-center p-4 text-slate-500 text-sm">
                     Keep journaling to unlock personalized AI wellness insights.
                   </div>
                 )}
@@ -272,7 +272,7 @@ export default function DashboardPage() {
             </Card>
 
             {/* Today's Focus */}
-            <Card className="glass border-border/50 shadow-lg">
+            <Card className="shadow-sm border-slate-100">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calendar className="w-5 h-5 text-primary" />

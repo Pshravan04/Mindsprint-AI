@@ -132,7 +132,7 @@ export default function JournalPage() {
         </header>
 
         {/* Chat Area */}
-        <Card className="flex-1 glass border-border/50 shadow-xl overflow-hidden flex flex-col relative">
+        <Card className="flex-1 bg-white border-slate-200 shadow-sm overflow-hidden flex flex-col relative rounded-2xl">
           <CardContent className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
             <AnimatePresence>
               {messages.map((message) => (
@@ -150,8 +150,8 @@ export default function JournalPage() {
                   
                   <div className={`max-w-[80%] rounded-2xl p-4 ${
                     message.role === "user" 
-                      ? "bg-primary text-white rounded-tr-sm" 
-                      : "bg-background/80 border border-border/50 text-foreground rounded-tl-sm shadow-sm"
+                      ? "bg-indigo-600 text-white rounded-tr-sm shadow-md" 
+                      : "bg-slate-50 border border-slate-100 text-slate-800 rounded-tl-sm shadow-sm"
                   }`}>
                     <p className="whitespace-pre-wrap leading-relaxed">{message.content}</p>
                   </div>
@@ -173,9 +173,9 @@ export default function JournalPage() {
                   <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center text-primary shrink-0">
                     <Sparkles className="w-4 h-4" />
                   </div>
-                  <div className="bg-background/80 border border-border/50 rounded-2xl p-4 rounded-tl-sm flex items-center gap-2">
+                  <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 rounded-tl-sm flex items-center gap-2 shadow-sm">
                     <Loader2 className="w-4 h-4 animate-spin text-primary" />
-                    <span className="text-sm text-muted-foreground">MindSprint is typing...</span>
+                    <span className="text-sm text-slate-500">MindSprint is typing...</span>
                   </div>
                 </motion.div>
               )}
@@ -184,7 +184,7 @@ export default function JournalPage() {
           </CardContent>
 
           {/* Input Area */}
-          <div className="p-4 border-t border-border/50 bg-background/50 backdrop-blur-sm">
+          <div className="p-4 border-t border-slate-100 bg-slate-50/80 backdrop-blur-sm">
             {messages.length === 1 && (
               <div className="flex flex-wrap gap-2 mb-4">
                 {ICEBREAKERS.map((prompt, idx) => (
@@ -207,7 +207,7 @@ export default function JournalPage() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Share what's on your mind..."
-                className="flex-1 bg-background/50 h-12 rounded-xl border-border/50 focus:border-primary/50"
+                className="flex-1 bg-white h-12 rounded-xl border-slate-200 focus-visible:ring-indigo-500 shadow-sm"
                 disabled={isLoading}
               />
               <Button 

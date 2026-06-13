@@ -74,7 +74,7 @@ export default function SignupPage() {
           </Link>
         </div>
 
-        <Card className="glass border-border/50 shadow-2xl relative overflow-hidden">
+        <Card className="bg-white border-slate-200 shadow-2xl relative overflow-hidden rounded-2xl">
           {/* Progress bar */}
           <div className="absolute top-0 left-0 w-full h-1 bg-muted">
             <motion.div 
@@ -103,7 +103,7 @@ export default function SignupPage() {
                     required 
                     value={formData.name}
                     onChange={handleChange}
-                    className="bg-background/50 h-12 rounded-xl"
+                    className="bg-white border-slate-200 h-12 rounded-xl shadow-sm focus-visible:ring-indigo-500"
                   />
                 </div>
                 <div className="space-y-2">
@@ -115,7 +115,7 @@ export default function SignupPage() {
                     required 
                     value={formData.email}
                     onChange={handleChange}
-                    className="bg-background/50 h-12 rounded-xl"
+                    className="bg-white border-slate-200 h-12 rounded-xl shadow-sm focus-visible:ring-indigo-500"
                   />
                 </div>
                 <div className="space-y-2">
@@ -127,7 +127,7 @@ export default function SignupPage() {
                     required 
                     value={formData.password}
                     onChange={handleChange}
-                    className="bg-background/50 h-12 rounded-xl"
+                    className="bg-white border-slate-200 h-12 rounded-xl shadow-sm focus-visible:ring-indigo-500"
                   />
                 </div>
                 
@@ -153,7 +153,7 @@ export default function SignupPage() {
                       required 
                       value={formData.age}
                       onChange={handleChange}
-                      className="bg-background/50 h-12 rounded-xl"
+                      className="bg-white border-slate-200 h-12 rounded-xl shadow-sm focus-visible:ring-indigo-500"
                     />
                   </div>
                   <div className="space-y-2">
@@ -165,7 +165,7 @@ export default function SignupPage() {
                       required 
                       value={formData.dailyStudyHours}
                       onChange={handleChange}
-                      className="bg-background/50 h-12 rounded-xl"
+                      className="bg-white border-slate-200 h-12 rounded-xl shadow-sm focus-visible:ring-indigo-500"
                     />
                   </div>
                 </div>
@@ -178,7 +178,7 @@ export default function SignupPage() {
                     required 
                     value={formData.examType}
                     onChange={handleChange}
-                    className="bg-background/50 h-12 rounded-xl"
+                    className="bg-white border-slate-200 h-12 rounded-xl shadow-sm focus-visible:ring-indigo-500"
                   />
                 </div>
 
@@ -190,7 +190,7 @@ export default function SignupPage() {
                     required 
                     value={formData.targetExamDate}
                     onChange={handleChange}
-                    className="bg-background/50 h-12 rounded-xl"
+                    className="bg-white border-slate-200 h-12 rounded-xl shadow-sm focus-visible:ring-indigo-500"
                   />
                 </div>
 
@@ -200,7 +200,7 @@ export default function SignupPage() {
                     name="preferredLanguage"
                     value={formData.preferredLanguage}
                     onChange={handleChange}
-                    className="flex h-12 w-full rounded-xl border border-input bg-background/50 px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    className="flex h-12 w-full rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
                   >
                     <option value="English">English</option>
                     <option value="Hindi">Hindi</option>

@@ -94,7 +94,7 @@ export default function ProfilePage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <Card className="glass border-border/50 shadow-xl overflow-hidden relative">
+            <Card className="shadow-sm border-slate-100 overflow-hidden relative bg-white">
               <div className="absolute top-0 right-0 p-8 opacity-5">
                 <User className="w-48 h-48 text-primary" />
               </div>
@@ -115,7 +115,7 @@ export default function ProfilePage() {
                       value={name} 
                       onChange={e => setName(e.target.value)} 
                       placeholder="e.g. Alex" 
-                      className="bg-background/50 border-border/50 h-12"
+                      className="bg-white border-slate-200 h-12 shadow-sm focus-visible:ring-indigo-500"
                       required
                     />
                   </div>
@@ -128,7 +128,7 @@ export default function ProfilePage() {
                       value={exams} 
                       onChange={e => setExams(e.target.value)} 
                       placeholder="e.g. JEE Mains, BITSAT (comma separated)" 
-                      className="bg-background/50 border-border/50 h-12"
+                      className="bg-white border-slate-200 h-12 shadow-sm focus-visible:ring-indigo-500"
                     />
                   </div>
 
@@ -140,7 +140,7 @@ export default function ProfilePage() {
                       value={courses} 
                       onChange={e => setCourses(e.target.value)} 
                       placeholder="e.g. Physics, Chemistry, Math (comma separated)" 
-                      className="bg-background/50 border-border/50 h-12"
+                      className="bg-white border-slate-200 h-12 shadow-sm focus-visible:ring-indigo-500"
                     />
                   </div>
 
@@ -153,7 +153,7 @@ export default function ProfilePage() {
                       value={targetScore} 
                       onChange={e => setTargetScore(e.target.value)} 
                       placeholder="e.g. 280" 
-                      className="bg-background/50 border-border/50 h-12"
+                      className="bg-white border-slate-200 h-12 shadow-sm focus-visible:ring-indigo-500"
                     />
                   </div>
 

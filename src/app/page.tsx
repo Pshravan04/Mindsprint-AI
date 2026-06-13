@@ -14,7 +14,7 @@ export default function LandingPage() {
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full bg-secondary/20 blur-[150px]" />
       </div>
 
-      <header className="px-6 lg:px-14 h-20 flex items-center justify-between border-b border-white/10 glass sticky top-0 z-50">
+      <header className="px-6 lg:px-14 h-20 flex items-center justify-between border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-50 shadow-sm">
         <div className="flex items-center gap-2">
           <div className="bg-gradient-to-br from-primary to-secondary p-2 rounded-xl text-white">
             <Brain className="w-6 h-6" />
@@ -76,7 +76,7 @@ export default function LandingPage() {
               Start Free Trial
               <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button size="lg" variant="outline" className="rounded-full text-base h-14 px-8 bg-background/50 backdrop-blur-md">
+            <Button size="lg" variant="outline" className="rounded-full text-base h-14 px-8 bg-white hover:bg-slate-50 border-slate-200 text-slate-800">
               Watch Demo
             </Button>
           </motion.div>

@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #F8FAFC;
-  --foreground: #0F172A;
+  --background: #FAFAFA;
+  --foreground: #111827;
   --primary: #6366F1;
   --primary-foreground: #ffffff;
   --secondary: #8B5CF6;
@@ -14,8 +14,8 @@
   --danger: #EF4444;
   --danger-foreground: #ffffff;
   --card: #ffffff;
-  --card-foreground: #0F172A;
-  --border: #e2e8f0;
+  --card-foreground: #111827;
+  --border: #f1f5f9;
 }
 
 @theme inline {
@@ -38,36 +38,12 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0F172A;
-    --foreground: #F8FAFC;
-    --card: #1e293b;
-    --card-foreground: #F8FAFC;
-    --border: #334155;
-  }
-}
-
+/* Enforce Light Theme only */
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   overflow-x: hidden;
-}
-
-/* Glassmorphism utilities */
-@utility glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-@utility glass-dark {
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Base custom classes */

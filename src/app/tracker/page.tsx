@@ -83,7 +83,7 @@ export default function TrackerPage() {
           
           {/* Main Chart Area */}
           <div className="lg:col-span-2 space-y-6">
-            <Card className="glass border-border/50 shadow-lg">
+            <Card className="shadow-sm border-slate-100">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <div>
                   <CardTitle>Mock Test Performance</CardTitle>
@@ -107,8 +107,8 @@ export default function TrackerPage() {
                       <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} domain={[0, targetScore]} />
                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#333" opacity={0.2} />
                       <Tooltip 
-                        contentStyle={{ backgroundColor: 'rgba(17, 17, 17, 0.8)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px' }}
-                        itemStyle={{ color: '#fff' }}
+                        contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #f1f5f9', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                        itemStyle={{ color: '#0f172a' }}
                       />
                       <Area type="monotone" dataKey="score" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorScore)" />
                     </AreaChart>
@@ -117,7 +117,7 @@ export default function TrackerPage() {
               </CardContent>
             </Card>
 
-            <Card className="glass border-border/50 shadow-lg">
+            <Card className="shadow-sm border-slate-100">
               <CardHeader>
                 <CardTitle>Log New Score</CardTitle>
                 <CardDescription>Keep your progress updated to feed the AI coach.</CardDescription>
@@ -142,7 +142,7 @@ export default function TrackerPage() {
 
           {/* Sidebar Area */}
           <div className="space-y-6">
-            <Card className="glass border-border/50 shadow-lg">
+            <Card className="shadow-sm border-slate-100">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calendar className="w-5 h-5 text-primary" />
@@ -151,8 +151,8 @@ export default function TrackerPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 {UPCOMING_EXAMS.map((exam, i) => (
-                  <div key={i} className="flex flex-col p-4 rounded-xl border border-border/50 bg-background/50 hover:border-primary/50 transition-colors">
-                    <h4 className="font-semibold text-lg">{exam.name}</h4>
+                  <div key={i} className="flex flex-col p-4 rounded-xl border border-slate-100 bg-slate-50 hover:border-primary/30 transition-colors">
+                    <h4 className="font-semibold text-lg text-slate-800">{exam.name}</h4>
                     <p className="text-muted-foreground text-sm">{exam.date}</p>
                     <div className="mt-4 flex items-center justify-between">
                       <span className="text-sm font-medium">Countdown</span>
@@ -163,27 +163,27 @@ export default function TrackerPage() {
               </CardContent>
             </Card>
 
-            <Card className="glass-dark border-border/50 shadow-xl overflow-hidden relative">
-              <div className="absolute -right-4 -top-4 opacity-10">
+            <Card className="shadow-sm border-emerald-100 bg-emerald-50/30 overflow-hidden relative">
+              <div className="absolute -right-4 -top-4 opacity-5">
                 <Target className="w-32 h-32 text-primary" />
               </div>
               <CardHeader>
-                <CardTitle className="text-white">Goal Tracker</CardTitle>
+                <CardTitle className="text-emerald-900">Goal Tracker</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-white/80">Current Average</span>
-                    <span className="font-bold text-emerald-400">
+                    <span className="text-emerald-700">Current Average</span>
+                    <span className="font-bold text-emerald-600">
                       {mockData.length > 0 ? Math.round(mockData.reduce((acc, curr) => acc + curr.score, 0) / mockData.length) : 0} / {targetScore}
                     </span>
                   </div>
                   <div className="flex justify-between text-sm">
-                    <span className="text-white/80">Target Score</span>
-                    <span className="font-bold text-white">{targetScore}</span>
+                    <span className="text-emerald-700">Target Score</span>
+                    <span className="font-bold text-emerald-900">{targetScore}</span>
                   </div>
-                  <div className="w-full h-2 bg-white/10 rounded-full mt-4">
-                    <div className="h-full bg-emerald-400 rounded-full" style={{ width: `${mockData.length > 0 ? Math.min(100, (Math.round(mockData.reduce((acc, curr) => acc + curr.score, 0) / mockData.length) / targetScore) * 100) : 0}%` }}></div>
+                  <div className="w-full h-2 bg-emerald-100 rounded-full mt-4">
+                    <div className="h-full bg-emerald-500 rounded-full" style={{ width: `${mockData.length > 0 ? Math.min(100, (Math.round(mockData.reduce((acc, curr) => acc + curr.score, 0) / mockData.length) / targetScore) * 100) : 0}%` }}></div>
                   </div>
                 </div>
               </CardContent>
