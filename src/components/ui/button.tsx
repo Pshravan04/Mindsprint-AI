@@ -39,6 +39,10 @@ export interface ButtonProps
   asChild?: boolean
 }
 
+/**
+ * Button component that provides various variants and sizes using class-variance-authority.
+ * Utilizes Radix UI Slot for the asChild prop.
+ */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"

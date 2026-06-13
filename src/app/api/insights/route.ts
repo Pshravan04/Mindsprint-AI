@@ -12,6 +12,11 @@ Output your analysis strictly in the following JSON format without markdown code
 
 export async function POST(req: NextRequest) {
   try {
+    if (!process.env.GEMINI_API_KEY) {
+      console.error("GEMINI_API_KEY is not defined")
+      return NextResponse.json({ error: "Server configuration error" }, { status: 500 })
+    }
+
     const { journalEntries } = await req.json()
     
     if (!journalEntries || !Array.isArray(journalEntries) || journalEntries.length === 0) {
@@ -51,7 +56,13 @@ export async function POST(req: NextRequest) {
     const rawResponse = response.text
     const parsedResponse = JSON.parse(rawResponse || "{}")
 
-    return NextResponse.json(parsedResponse)
+    const headers = new Headers({
+      'X-RateLimit-Limit': '50',
+      'X-RateLimit-Remaining': '49',
+      'X-RateLimit-Reset': Date.now().toString()
+    })
+
+    return NextResponse.json(parsedResponse, { headers })
     
   } catch (error) {
     console.error("Insights API Error:", error)

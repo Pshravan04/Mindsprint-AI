@@ -8,6 +8,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Brain, Send, User, Sparkles, Loader2 } from "lucide-react"
 import { Sidebar } from "@/components/Sidebar"
 import { supabase } from "@/lib/supabase"
+import DOMPurify from "dompurify"
 
 type Message = {
   id: string
@@ -82,7 +83,8 @@ export default function JournalPage() {
     if (!content.trim() || isLoading) return
 
     // eslint-disable-next-line react-hooks/purity
-    const userMessage: Message = { id: Date.now().toString(), role: "user", content }
+    const sanitizedContent = DOMPurify.sanitize(content)
+    const userMessage: Message = { id: Date.now().toString(), role: "user", content: sanitizedContent }
     
     // Update state and clear input
     setMessages((prev) => [...prev, userMessage])
@@ -90,7 +92,7 @@ export default function JournalPage() {
     setIsLoading(true)
 
     // Save to Supabase
-    await supabase.from('journals').insert([{ role: 'user', content }])
+    await supabase.from('journals').insert([{ role: 'user', content: sanitizedContent }])
 
     try {
       const response = await fetch("/api/chat", {
@@ -122,7 +124,7 @@ export default function JournalPage() {
     <div className="min-h-screen bg-background pb-20 md:pb-0 md:pl-20">
       <Sidebar />
 
-      <div className="max-w-4xl mx-auto p-4 md:p-8 h-screen flex flex-col">
+      <main role="main" className="max-w-4xl mx-auto p-4 md:p-8 h-screen flex flex-col">
         
         {/* Header */}
         <header className="flex items-center gap-4 mb-6 shrink-0">
@@ -130,8 +132,8 @@ export default function JournalPage() {
             <Brain className="w-6 h-6" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">AI Coach</h1>
-            <p className="text-sm text-muted-foreground">Always here to support you.</p>
+            <h1 className="text-2xl font-bold tracking-tight">AI Coach for Competitive Exams</h1>
+            <p className="text-sm text-muted-foreground">Always here to support your NEET, JEE, or UPSC prep.</p>
           </div>
         </header>
 
@@ -207,7 +209,10 @@ export default function JournalPage() {
               onSubmit={(e) => { e.preventDefault(); handleSend(input); }}
               className="flex items-center gap-2"
             >
+              <label htmlFor="journal-input" className="sr-only">Journal Entry</label>
               <Input
+                id="journal-input"
+                aria-label="Journal Entry"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Share what's on your mind..."
@@ -227,7 +232,7 @@ export default function JournalPage() {
           </div>
         </Card>
 
-      </div>
+      </main>
     </div>
   )
 }

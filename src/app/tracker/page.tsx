@@ -14,7 +14,10 @@ const Area = dynamic(() => import('recharts').then((mod) => mod.Area), { ssr: fa
 const XAxis = dynamic(() => import('recharts').then((mod) => mod.XAxis), { ssr: false })
 const YAxis = dynamic(() => import('recharts').then((mod) => mod.YAxis), { ssr: false })
 const Tooltip = dynamic(() => import('recharts').then((mod) => mod.Tooltip), { ssr: false })
-const ResponsiveContainer = dynamic(() => import('recharts').then((mod) => mod.ResponsiveContainer), { ssr: false })
+const ResponsiveContainer = dynamic(() => import('recharts').then((mod) => mod.ResponsiveContainer), { 
+  ssr: false, 
+  loading: () => <div className="w-full h-full bg-slate-100 animate-pulse rounded-xl flex items-center justify-center text-slate-400">Loading chart...</div> 
+})
 const CartesianGrid = dynamic(() => import('recharts').then((mod) => mod.CartesianGrid), { ssr: false })
 import { supabase } from "@/lib/supabase"
 
@@ -81,10 +84,10 @@ export default function TrackerPage() {
     <div className="min-h-screen bg-background pb-20 md:pb-0 md:pl-20">
       <Sidebar />
 
-      <div className="max-w-6xl mx-auto p-4 md:p-8 space-y-8">
+      <main role="main" className="max-w-6xl mx-auto p-4 md:p-8 space-y-8">
         <header>
           <h1 className="text-3xl font-bold tracking-tight">Exam Tracker</h1>
-          <p className="text-muted-foreground">Monitor your mock test progress and upcoming milestones.</p>
+          <p className="text-muted-foreground">Monitor your NEET, JEE, or UPSC mock test progress and upcoming milestones.</p>
         </header>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -132,7 +135,10 @@ export default function TrackerPage() {
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleAddScore} className="flex gap-4">
+                  <label htmlFor="score-input" className="sr-only">Score</label>
                   <Input 
+                    id="score-input"
+                    aria-label="Score Input"
                     type="number" 
                     placeholder="Enter score (e.g. 240)" 
                     value={newScore}
@@ -199,7 +205,7 @@ export default function TrackerPage() {
           </div>
 
         </div>
-      </div>
+      </main>
     </div>
   )
 }

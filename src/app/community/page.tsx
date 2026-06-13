@@ -8,6 +8,7 @@ import { Flame, Activity, BookOpen, Heart, MessageCircle, Send } from "lucide-re
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { Sidebar } from "@/components/Sidebar"
+import DOMPurify from "dompurify"
 
 const INITIAL_POSTS = [
   { id: 1, text: "Failed my 3rd mock test in a row. Physics is just not clicking for me. Feel like giving up today.", author: "Anonymous", time: "2h ago", hugs: 24, related: true },
@@ -28,7 +29,7 @@ export default function CommunityPage() {
 
     const post = {
       id: Date.now(),
-      text: newPost,
+      text: DOMPurify.sanitize(newPost),
       author: "Anonymous",
       time: "Just now",
       hugs: 0,

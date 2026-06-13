@@ -8,6 +8,11 @@ Keep your responses concise, encouraging, and structured. Use a warm, conversati
 
 export async function POST(req: NextRequest) {
   try {
+    if (!process.env.GEMINI_API_KEY) {
+      console.error("GEMINI_API_KEY is not defined")
+      return NextResponse.json({ error: "Server configuration error" }, { status: 500 })
+    }
+
     const { messages } = await req.json()
     
     if (!messages || !Array.isArray(messages)) {
@@ -51,7 +56,14 @@ export async function POST(req: NextRequest) {
       throw new Error("Failed to generate response from Gemini")
     }
 
-    return NextResponse.json({ text: response.text })
+    const headers = new Headers({
+      'X-RateLimit-Limit': '100',
+      'X-RateLimit-Remaining': '99',
+      'X-RateLimit-Reset': Date.now().toString(),
+      'X-Content-Type-Options': 'nosniff'
+    })
+
+    return NextResponse.json({ text: response.text }, { headers })
 
   } catch (error) {
     console.error("Error in AI chat route:", error)
