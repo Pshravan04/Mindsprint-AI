@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
-import { Brain, Send, User, Sparkles, Activity, Flame, BookOpen, Loader2 } from "lucide-react"
-import Link from "next/link"
+import { Brain, Send, User, Sparkles, Loader2 } from "lucide-react"
+import { Sidebar } from "@/components/Sidebar"
 
 type Message = {
   id: string
@@ -62,9 +62,16 @@ export default function JournalPage() {
     if (!content.trim() || isLoading) return
 
     const userMessage: Message = { id: Date.now().toString(), role: "user", content }
-    setMessages(prev => [...prev, userMessage])
+    
+    // Update state and clear input
+    setMessages((prev) => [...prev, userMessage])
     setInput("")
     setIsLoading(true)
+
+    // Save to localStorage for AI insights analysis
+    const savedEntries = JSON.parse(localStorage.getItem("mindsprint_journals") || "[]")
+    savedEntries.push(userMessage.content)
+    localStorage.setItem("mindsprint_journals", JSON.stringify(savedEntries))
 
     try {
       const response = await fetch("/api/chat", {
@@ -88,21 +95,10 @@ export default function JournalPage() {
   }
 
   return (
-    <div className="h-screen bg-background flex flex-col md:pl-20 relative">
-      {/* Navigation */}
-      <nav className="fixed bottom-0 left-0 w-full h-16 glass border-t border-border/50 md:top-0 md:w-20 md:h-full md:border-t-0 md:border-r flex md:flex-col items-center justify-around md:justify-start md:pt-8 md:gap-8 z-50">
-        <Link href="/dashboard" className="p-3 hover:bg-muted rounded-xl text-muted-foreground transition-colors">
-          <Activity className="w-6 h-6" />
-        </Link>
-        <Link href="/journal" className="p-3 bg-primary/20 rounded-xl text-primary transition-colors">
-          <BookOpen className="w-6 h-6" />
-        </Link>
-        <Link href="/community" className="p-3 hover:bg-muted rounded-xl text-muted-foreground transition-colors">
-          <Flame className="w-6 h-6" />
-        </Link>
-      </nav>
+    <div className="min-h-screen bg-background pb-20 md:pb-0 md:pl-20">
+      <Sidebar />
 
-      <div className="flex-1 max-w-4xl w-full mx-auto p-4 md:p-8 flex flex-col h-full pb-20 md:pb-8">
+      <div className="max-w-4xl mx-auto p-4 md:p-8 h-screen flex flex-col">
         
         {/* Header */}
         <header className="flex items-center gap-4 mb-6 shrink-0">

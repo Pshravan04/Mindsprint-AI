@@ -4,9 +4,10 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Brain, Flame, Calendar, Activity, CheckCircle2, ChevronRight, Moon, Sun, Coffee, BookOpen } from "lucide-react"
+import { Brain, Flame, Calendar, Activity, CheckCircle2, ChevronRight, Moon, Sun, Coffee, BookOpen, Sparkles, Loader2, Target } from "lucide-react"
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts"
 import Link from "next/link"
+import { Sidebar } from "@/components/Sidebar"
 
 const MOODS = [
   { emoji: "😔", label: "Stressed", color: "text-red-500", bg: "bg-red-500/10" },
@@ -32,28 +33,37 @@ export default function DashboardPage() {
   // Burnout risk out of 100
   const burnoutRisk = 35
 
+  const [insights, setInsights] = useState<{hidden_triggers: string[], emotional_pattern: string, coping_strategy: string} | null>(null)
+  const [loadingInsights, setLoadingInsights] = useState(true)
+
   useEffect(() => {
     const savedName = localStorage.getItem("mindsprint_user")
     if (savedName) {
       // Capitalize first letter
       setUsername(savedName.charAt(0).toUpperCase() + savedName.slice(1))
     }
+
+    const fetchInsights = async () => {
+      try {
+        const journalEntries = JSON.parse(localStorage.getItem("mindsprint_journals") || "[]")
+        const res = await fetch("/api/insights", {
+          method: "POST",
+          body: JSON.stringify({ journalEntries })
+        })
+        const data = await res.json()
+        setInsights(data)
+      } catch (e) {
+        console.error("Failed to fetch insights:", e)
+      } finally {
+        setLoadingInsights(false)
+      }
+    }
+    fetchInsights()
   }, [])
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0 md:pl-20">
-      {/* Mobile Bottom Nav / Desktop Side Nav placeholder */}
-      <nav className="fixed bottom-0 left-0 w-full h-16 glass border-t border-border/50 md:top-0 md:w-20 md:h-full md:border-t-0 md:border-r flex md:flex-col items-center justify-around md:justify-start md:pt-8 md:gap-8 z-50">
-        <Link href="/dashboard" className="p-3 bg-primary/20 rounded-xl text-primary transition-colors">
-          <Activity className="w-6 h-6" />
-        </Link>
-        <Link href="/journal" className="p-3 hover:bg-muted rounded-xl text-muted-foreground transition-colors">
-          <BookOpen className="w-6 h-6" />
-        </Link>
-        <Link href="/community" className="p-3 hover:bg-muted rounded-xl text-muted-foreground transition-colors">
-          <Flame className="w-6 h-6" />
-        </Link>
-      </nav>
+      <Sidebar />
 
       <div className="max-w-7xl mx-auto p-4 md:p-8 space-y-6">
         
@@ -187,6 +197,63 @@ export default function DashboardPage() {
                 <p className="text-sm text-center mt-4 text-white/80">
                   You are maintaining a healthy pace. Keep taking those short breaks!
                 </p>
+              </CardContent>
+            </Card>
+
+            {/* AI Wellness Report */}
+            <Card className="glass-dark border-primary/20 shadow-xl overflow-hidden relative">
+              <div className="absolute -right-10 -top-10 opacity-10">
+                <Brain className="w-40 h-40 text-primary" />
+              </div>
+              <CardHeader className="pb-4">
+                <CardTitle className="text-white flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-primary" />
+                  AI Wellness Analysis
+                </CardTitle>
+                <CardDescription className="text-white/70">
+                  Insights based on your recent journal entries and mood logs.
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {loadingInsights ? (
+                  <div className="flex items-center justify-center p-8 text-white/50">
+                    <Loader2 className="w-6 h-6 animate-spin mr-2" />
+                    Analyzing your mental wellness patterns...
+                  </div>
+                ) : insights ? (
+                  <div className="space-y-4">
+                    <div className="bg-background/20 p-4 rounded-xl border border-white/10">
+                      <h4 className="text-sm font-medium text-white/70 mb-2 flex items-center gap-2">
+                        <Target className="w-4 h-4 text-orange-400" /> Hidden Triggers
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {insights.hidden_triggers.map((trigger, i) => (
+                          <span key={i} className="px-3 py-1 bg-orange-500/20 text-orange-200 text-xs rounded-full border border-orange-500/30">
+                            {trigger}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    
+                    <div className="bg-background/20 p-4 rounded-xl border border-white/10">
+                      <h4 className="text-sm font-medium text-white/70 mb-1 flex items-center gap-2">
+                        <Activity className="w-4 h-4 text-blue-400" /> Emotional Pattern
+                      </h4>
+                      <p className="text-sm text-white/90 leading-relaxed">{insights.emotional_pattern}</p>
+                    </div>
+
+                    <div className="bg-primary/20 p-4 rounded-xl border border-primary/30">
+                      <h4 className="text-sm font-medium text-primary-foreground mb-1 flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Recommended Strategy
+                      </h4>
+                      <p className="text-sm text-white/90 leading-relaxed">{insights.coping_strategy}</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center p-4 text-white/60 text-sm">
+                    Keep journaling to unlock personalized AI wellness insights.
+                  </div>
+                )}
               </CardContent>
             </Card>
 

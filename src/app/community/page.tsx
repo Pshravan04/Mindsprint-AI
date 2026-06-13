@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Flame, Activity, BookOpen, Heart, MessageCircle, Send } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import { Sidebar } from "@/components/Sidebar"
 
 const INITIAL_POSTS = [
   { id: 1, text: "Failed my 3rd mock test in a row. Physics is just not clicking for me. Feel like giving up today.", author: "Anonymous", time: "2h ago", hugs: 24, related: true },
@@ -53,20 +54,9 @@ export default function CommunityPage() {
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0 md:pl-20">
-      {/* Navigation */}
-      <nav className="fixed bottom-0 left-0 w-full h-16 glass border-t border-border/50 md:top-0 md:w-20 md:h-full md:border-t-0 md:border-r flex md:flex-col items-center justify-around md:justify-start md:pt-8 md:gap-8 z-50">
-        <Link href="/dashboard" className="p-3 hover:bg-muted rounded-xl text-muted-foreground transition-colors">
-          <Activity className="w-6 h-6" />
-        </Link>
-        <Link href="/journal" className="p-3 hover:bg-muted rounded-xl text-muted-foreground transition-colors">
-          <BookOpen className="w-6 h-6" />
-        </Link>
-        <Link href="/community" className="p-3 bg-primary/20 rounded-xl text-primary transition-colors">
-          <Flame className="w-6 h-6" />
-        </Link>
-      </nav>
+      <Sidebar />
 
-      <div className="max-w-5xl mx-auto p-4 md:p-8 space-y-8">
+      <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-8">
         
         {/* Header */}
         <header className="text-center space-y-4 max-w-2xl mx-auto mb-12">
