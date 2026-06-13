@@ -62,8 +62,9 @@ export default function LoginPage() {
           <CardContent>
             <form onSubmit={handleLogin} className="space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium text-foreground/80 pl-1">Email</label>
+                <label htmlFor="email" className="text-sm font-medium text-foreground/80 pl-1">Email</label>
                 <Input 
+                  id="email"
                   type="email" 
                   placeholder="name@example.com" 
                   required 
@@ -74,10 +75,11 @@ export default function LoginPage() {
               </div>
               <div className="space-y-2">
                 <div className="flex items-center justify-between pl-1 pr-1">
-                  <label className="text-sm font-medium text-foreground/80">Password</label>
+                  <label htmlFor="password" className="text-sm font-medium text-foreground/80">Password</label>
                   <Link href="#" className="text-xs text-primary hover:underline">Forgot password?</Link>
                 </div>
                 <Input 
+                  id="password"
                   type="password" 
                   required 
                   value={password}
@@ -122,7 +124,7 @@ export default function LoginPage() {
           </CardContent>
           <CardFooter className="justify-center border-t border-border/20 pt-6">
             <p className="text-sm text-muted-foreground">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href="/signup" className="text-primary font-medium hover:underline">
                 Sign up
               </Link>

@@ -7,7 +7,15 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Target, Calendar, Plus, TrendingUp } from "lucide-react"
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts"
+import dynamic from 'next/dynamic'
+
+const LineChart = dynamic(() => import('recharts').then((mod) => mod.LineChart), { ssr: false })
+const Line = dynamic(() => import('recharts').then((mod) => mod.Line), { ssr: false })
+const XAxis = dynamic(() => import('recharts').then((mod) => mod.XAxis), { ssr: false })
+const YAxis = dynamic(() => import('recharts').then((mod) => mod.YAxis), { ssr: false })
+const Tooltip = dynamic(() => import('recharts').then((mod) => mod.Tooltip), { ssr: false })
+const ResponsiveContainer = dynamic(() => import('recharts').then((mod) => mod.ResponsiveContainer), { ssr: false })
+const CartesianGrid = dynamic(() => import('recharts').then((mod) => mod.CartesianGrid), { ssr: false })
 import { supabase } from "@/lib/supabase"
 
 const INITIAL_MOCK_DATA = [
@@ -43,7 +51,7 @@ export default function TrackerPage() {
         .order('created_at', { ascending: true })
       
       if (!error && data && data.length > 0) {
-        setMockData(data.map((d: any) => ({
+        setMockData(data.map((d: { id: string, score: number, created_at: string, subject: string }) => ({
           name: d.name,
           score: d.score,
           max: profileData?.target_score || 300

@@ -5,7 +5,15 @@ import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Brain, Flame, Calendar, Activity, CheckCircle2, ChevronRight, Moon, Sun, Coffee, BookOpen, Sparkles, Loader2, Target } from "lucide-react"
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts"
+import dynamic from 'next/dynamic'
+
+const AreaChart = dynamic(() => import('recharts').then((mod) => mod.AreaChart), { ssr: false })
+const Area = dynamic(() => import('recharts').then((mod) => mod.Area), { ssr: false })
+const XAxis = dynamic(() => import('recharts').then((mod) => mod.XAxis), { ssr: false })
+const YAxis = dynamic(() => import('recharts').then((mod) => mod.YAxis), { ssr: false })
+const Tooltip = dynamic(() => import('recharts').then((mod) => mod.Tooltip), { ssr: false })
+const ResponsiveContainer = dynamic(() => import('recharts').then((mod) => mod.ResponsiveContainer), { ssr: false })
+const CartesianGrid = dynamic(() => import('recharts').then((mod) => mod.CartesianGrid), { ssr: false })
 import Link from "next/link"
 import { Sidebar } from "@/components/Sidebar"
 import { supabase } from "@/lib/supabase"
@@ -58,7 +66,7 @@ export default function DashboardPage() {
           .eq('role', 'user')
 
         if (error) throw error;
-        const journalEntries = data ? data.map((d: any) => d.content) : []
+        const journalEntries = data ? data.map((d: { content: string }) => d.content) : []
 
         const res = await fetch("/api/insights", {
           method: "POST",
@@ -75,6 +83,15 @@ export default function DashboardPage() {
     fetchInsights()
   }, [])
 
+  const handleMoodSelect = async (moodLabel: string) => {
+    setSelectedMood(moodLabel)
+    try {
+      await supabase.from('mood_logs').insert([{ mood: moodLabel }])
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0 md:pl-20">
       <Sidebar />
@@ -85,7 +102,7 @@ export default function DashboardPage() {
         <header className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Good morning, {username}</h1>
-            <p className="text-muted-foreground">Here's your mindful study overview.</p>
+            <p className="text-muted-foreground">Here&apos;s your mindful study overview.</p>
           </div>
           <div className="flex items-center gap-4">
             <div className="hidden sm:flex items-center gap-2 bg-white px-4 py-2 rounded-full border border-slate-100 shadow-sm">
@@ -120,7 +137,8 @@ export default function DashboardPage() {
                         key={mood.label}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        onClick={() => setSelectedMood(mood.label)}
+                        onClick={() => handleMoodSelect(mood.label)}
+                        aria-label={`Select mood: ${mood.label}`}
                         className={`flex flex-col items-center justify-center p-4 rounded-2xl border transition-all duration-300 ${
                           isSelected 
                             ? `border-primary ${mood.bg} shadow-md` 
@@ -276,7 +294,7 @@ export default function DashboardPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calendar className="w-5 h-5 text-primary" />
-                  Today's Focus
+                  Today&apos;s Focus
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">

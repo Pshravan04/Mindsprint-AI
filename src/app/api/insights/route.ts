@@ -23,7 +23,18 @@ export async function POST(req: NextRequest) {
       })
     }
 
-    const combinedText = journalEntries.join("\\n---\\n")
+    if (journalEntries.length > 30) {
+        return NextResponse.json({ error: "Too many entries." }, { status: 400 })
+    }
+
+    const sanitizedEntries = journalEntries.map(entry => {
+        if (typeof entry !== 'string') {
+            throw new Error("Invalid entry format")
+        }
+        return entry.slice(0, 2000) // limit characters
+    })
+
+    const combinedText = sanitizedEntries.join("\n---\n").slice(0, 15000)
     
     const response = await geminiClient.models.generateContent({
       model: "gemini-2.5-flash",

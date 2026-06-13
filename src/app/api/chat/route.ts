@@ -14,6 +14,20 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid request. Messages array is required." }, { status: 400 })
     }
 
+    if (messages.length > 50) {
+      return NextResponse.json({ error: "Too many messages in history." }, { status: 400 })
+    }
+
+    const validatedMessages = messages.map(m => {
+      if (!m || typeof m.content !== 'string' || typeof m.role !== 'string') {
+        throw new Error("Invalid message format")
+      }
+      return {
+        role: m.role,
+        content: m.content.slice(0, 1000) // limit character count per message to prevent payload attacks
+      }
+    })
+
     const client = geminiClient
     
     // Extract the latest user message
@@ -24,7 +38,7 @@ export async function POST(req: NextRequest) {
     // or use the chat session if needed. For now, generate a simple completion.
     
     // Constructing a simple conversation history string
-    const conversationHistory = messages.map((m: any) => `${m.role === 'user' ? 'Student' : 'MindSprint AI'}: ${m.content}`).join('\n')
+    const conversationHistory = validatedMessages.map((m: {role: string, content: string}) => `${m.role === 'user' ? 'Student' : 'MindSprint AI'}: ${m.content}`).join('\n')
     
     const prompt = `${SYSTEM_INSTRUCTION}\n\nHere is the conversation so far:\n${conversationHistory}\n\nMindSprint AI:`
 

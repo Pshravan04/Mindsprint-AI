@@ -40,6 +40,7 @@ export default function JournalPage() {
     const savedName = localStorage.getItem("mindsprint_user")
     if (savedName) {
       currentName = savedName.charAt(0).toUpperCase() + savedName.slice(1)
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setUsername(currentName)
     }
 
@@ -56,7 +57,7 @@ export default function JournalPage() {
           content: `Hi ${currentName}. I'm your MindSprint AI companion. I'm here to listen, support, and help you navigate your exam preparation journey. How are you feeling right now?`
         }
 
-        const formatted: Message[] = data.map((d: any) => ({
+        const formatted: Message[] = data.map((d: { id: string, content: string, role: 'user' | 'assistant' }) => ({
           id: d.id,
           role: d.role,
           content: d.content
@@ -80,6 +81,7 @@ export default function JournalPage() {
   const handleSend = async (content: string) => {
     if (!content.trim() || isLoading) return
 
+    // eslint-disable-next-line react-hooks/purity
     const userMessage: Message = { id: Date.now().toString(), role: "user", content }
     
     // Update state and clear input
@@ -100,6 +102,7 @@ export default function JournalPage() {
       if (!response.ok) throw new Error("Failed to fetch")
       const data = await response.json()
 
+      // eslint-disable-next-line react-hooks/purity
       const aiMessage: Message = { id: (Date.now() + 1).toString(), role: "ai", content: data.text }
       setMessages(prev => [...prev, aiMessage])
       
@@ -107,6 +110,7 @@ export default function JournalPage() {
       await supabase.from('journals').insert([{ role: 'ai', content: data.text }])
     } catch (error) {
       console.error("Chat error:", error)
+      // eslint-disable-next-line react-hooks/purity
       const errorMessage: Message = { id: (Date.now() + 1).toString(), role: "ai", content: "I'm sorry, I'm having trouble connecting right now. Please try again later." }
       setMessages(prev => [...prev, errorMessage])
     } finally {
@@ -214,7 +218,8 @@ export default function JournalPage() {
                 type="submit" 
                 disabled={!input.trim() || isLoading}
                 size="icon"
-                className="w-12 h-12 rounded-xl shadow-lg shadow-primary/20 group"
+                aria-label="Send message"
+                className="h-12 w-12 rounded-xl bg-indigo-600 hover:bg-indigo-700 shadow-md transition-all duration-200"
               >
                 <Send className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>

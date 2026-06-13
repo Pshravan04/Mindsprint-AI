@@ -96,10 +96,11 @@ export default function SignupPage() {
             {step === 1 ? (
               <form onSubmit={handleNext} className="space-y-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground/80 pl-1">Name</label>
+                  <label htmlFor="name" className="text-sm font-medium text-foreground/80 pl-1">Full Name</label>
                   <Input 
+                    id="name"
                     name="name"
-                    placeholder="Alex Doe" 
+                    placeholder="Alex Kumar" 
                     required 
                     value={formData.name}
                     onChange={handleChange}
@@ -107,8 +108,9 @@ export default function SignupPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground/80 pl-1">Email</label>
+                  <label htmlFor="email" className="text-sm font-medium text-foreground/80 pl-1">Email</label>
                   <Input 
+                    id="email"
                     type="email" 
                     name="email"
                     placeholder="name@example.com" 
@@ -119,8 +121,9 @@ export default function SignupPage() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground/80 pl-1">Password</label>
+                  <label htmlFor="password" className="text-sm font-medium text-foreground/80 pl-1">Password</label>
                   <Input 
+                    id="password"
                     type="password" 
                     name="password"
                     placeholder="Create a strong password"
@@ -145,8 +148,9 @@ export default function SignupPage() {
               >
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-foreground/80 pl-1">Age</label>
+                    <label htmlFor="age" className="text-sm font-medium text-foreground/80 pl-1">Age</label>
                     <Input 
+                      id="age"
                       type="number" 
                       name="age"
                       placeholder="18" 
@@ -157,8 +161,9 @@ export default function SignupPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-foreground/80 pl-1">Daily Study Hours</label>
+                    <label htmlFor="dailyStudyHours" className="text-sm font-medium text-foreground/80 pl-1">Daily Study Hours</label>
                     <Input 
+                      id="dailyStudyHours"
                       type="number" 
                       name="dailyStudyHours"
                       placeholder="e.g. 6" 
@@ -171,8 +176,9 @@ export default function SignupPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground/80 pl-1">Target Exam (NEET, JEE, UPSC...)</label>
+                  <label htmlFor="examType" className="text-sm font-medium text-foreground/80 pl-1">Target Exam (NEET, JEE, UPSC...)</label>
                   <Input 
+                    id="examType"
                     name="examType"
                     placeholder="e.g. NEET UG" 
                     required 
@@ -183,8 +189,9 @@ export default function SignupPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground/80 pl-1">Target Exam Date</label>
+                  <label htmlFor="targetExamDate" className="text-sm font-medium text-foreground/80 pl-1">Target Exam Date</label>
                   <Input 
+                    id="targetExamDate"
                     type="date"
                     name="targetExamDate"
                     required 
@@ -195,8 +202,9 @@ export default function SignupPage() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-foreground/80 pl-1">Preferred Language</label>
+                  <label htmlFor="preferredLanguage" className="text-sm font-medium text-foreground/80 pl-1">Preferred Language</label>
                   <select 
+                    id="preferredLanguage"
                     name="preferredLanguage"
                     value={formData.preferredLanguage}
                     onChange={handleChange}

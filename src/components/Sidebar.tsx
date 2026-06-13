@@ -24,6 +24,7 @@ export function Sidebar() {
             key={href} 
             href={href} 
             title={label}
+            aria-label={label}
             className={`p-3 rounded-xl transition-colors ${
               isActive 
                 ? "bg-indigo-50 text-indigo-600 shadow-sm" 
