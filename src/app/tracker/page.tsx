@@ -51,7 +51,7 @@ export default function TrackerPage() {
         .order('created_at', { ascending: true })
       
       if (!error && data && data.length > 0) {
-        setMockData(data.map((d: { id: string, score: number, created_at: string, subject: string }) => ({
+        setMockData(data.map((d: { id: string, score: number, created_at: string, subject: string, name: string }) => ({
           name: d.name,
           score: d.score,
           max: profileData?.target_score || 300
