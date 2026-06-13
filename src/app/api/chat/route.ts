@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
-import { getGeminiClient } from "@/lib/gemini"
+import { geminiClient } from "@/lib/gemini"
 
 const SYSTEM_INSTRUCTION = `You are MindSprint AI, an empathetic, supportive, and highly intelligent mental wellness companion for students preparing for high-pressure competitive exams (like NEET, JEE, UPSC, etc.). 
 Your goal is to provide emotional support, practical study advice, and help prevent burnout. 
@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid request. Messages array is required." }, { status: 400 })
     }
 
-    const client = getGeminiClient()
+    const client = geminiClient
     
     // Extract the latest user message
     const latestMessage = messages[messages.length - 1].content
