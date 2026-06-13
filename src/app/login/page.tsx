@@ -18,6 +18,11 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    
+    // Save user info to local storage for the dashboard
+    const username = email.split('@')[0] || "Student"
+    localStorage.setItem("mindsprint_user", username)
+    
     // Simulate auth for now
     setTimeout(() => {
       setIsLoading(false)

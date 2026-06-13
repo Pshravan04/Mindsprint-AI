@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -27,9 +27,18 @@ const ACTIVITY_DATA = [
 
 export default function DashboardPage() {
   const [selectedMood, setSelectedMood] = useState<string | null>(null)
+  const [username, setUsername] = useState("Alex") // Default fallback
   
   // Burnout risk out of 100
   const burnoutRisk = 35
+
+  useEffect(() => {
+    const savedName = localStorage.getItem("mindsprint_user")
+    if (savedName) {
+      // Capitalize first letter
+      setUsername(savedName.charAt(0).toUpperCase() + savedName.slice(1))
+    }
+  }, [])
 
   return (
     <div className="min-h-screen bg-background pb-20 md:pb-0 md:pl-20">
@@ -51,7 +60,7 @@ export default function DashboardPage() {
         {/* Header */}
         <header className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold tracking-tight">Good morning, Alex</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Good morning, {username}</h1>
             <p className="text-muted-foreground">Here's your mindful study overview.</p>
           </div>
           <div className="flex items-center gap-4">

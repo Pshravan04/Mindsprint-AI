@@ -22,16 +22,33 @@ const ICEBREAKERS = [
 ]
 
 export default function JournalPage() {
+  const [username, setUsername] = useState("Alex") // Default fallback
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "1",
       role: "ai",
-      content: "Hi Alex. I'm your MindSprint AI companion. I'm here to listen, support, and help you navigate your exam preparation journey. How are you feeling right now?"
+      content: `Hi there. I'm your MindSprint AI companion. I'm here to listen, support, and help you navigate your exam preparation journey. How are you feeling right now?`
     }
   ])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const savedName = localStorage.getItem("mindsprint_user")
+    if (savedName) {
+      const formattedName = savedName.charAt(0).toUpperCase() + savedName.slice(1)
+      setUsername(formattedName)
+      // Update initial greeting
+      setMessages([
+        {
+          id: "1",
+          role: "ai",
+          content: `Hi ${formattedName}. I'm your MindSprint AI companion. I'm here to listen, support, and help you navigate your exam preparation journey. How are you feeling right now?`
+        }
+      ])
+    }
+  }, [])
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })

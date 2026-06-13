@@ -37,6 +37,14 @@ export default function SignupPage() {
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
+    
+    // Save user info to local storage for the dashboard
+    if (formData.name) {
+      // Get first name
+      const firstName = formData.name.split(' ')[0]
+      localStorage.setItem("mindsprint_user", firstName)
+    }
+    
     // Simulate auth & db save for now
     setTimeout(() => {
       setIsLoading(false)
