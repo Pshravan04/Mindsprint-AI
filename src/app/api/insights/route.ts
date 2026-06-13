@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
       }
     })
 
-    const rawResponse = response.text()
+    const rawResponse = response.text
     const parsedResponse = JSON.parse(rawResponse || "{}")
 
     return NextResponse.json(parsedResponse)
